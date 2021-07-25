@@ -1,12 +1,16 @@
 # read the  config file
 import configparser
 
+class CaseConfigParser(configparser.ConfigParser):
+    def optionxform(self, optionstr):
+        return optionstr
 
 def update_config(config_filename, new_time):
 
     # read the config file
-    config = configparser.ConfigParser()
+    config = CaseConfigParser()
     config.read(config_filename)
+    # config.optionxform = str  # preserve case for letters
 
     # update the sunrise and sunset times
     config["DayNight"]["SunriseTime"] = new_time['sunrise']
@@ -15,6 +19,7 @@ def update_config(config_filename, new_time):
     # write the updated config file
     with open(config_filename, 'w') as ini_file:
         config.write(ini_file,space_around_delimiters=False)
+        # config.write(ini_file)
 
 
 if __name__ == '__main__':

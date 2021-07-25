@@ -1,16 +1,36 @@
-# This is a sample Python script.
+import argparse
+from pathlib import Path
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+import get_sunrise_set
+import update_config
 
 
-# Press the green button in the gutter to run the script.
+def parse_args():
+    # Parse the args
+    parser = argparse.ArgumentParser(
+        description='Update the OpenAutoPro config file sunrise and senset times')
+
+    # define the argument to set the config file
+    parser.add_argument("-f", "--configfile", default="/home/pi/.openauto/config/openauto_system.ini",
+                        help="specify the full location of the config file")
+
+    # parse the arguments and check the file exists
+    args = parser.parse_args()
+
+    if args.configfile:
+        configfile = args.configfile
+
+        if not Path(configfile).exists():
+            raise SystemError("*** ERROR*** config file not found")
+
+    return args
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    args = parse_args()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    results = get_sunrise_set.get_sunrise_sunset()
+    if results['status_code'] == 200:
+        update_config.update_config(args.configfile, results)
+    else:
+        SystemExit(f"Couldn't get times from web page.  Status code = {results['status_code']:d}")

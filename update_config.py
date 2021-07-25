@@ -1,23 +1,30 @@
 # read the  config file
 import configparser
 
-config_file = "z:/phones/android auto/openauto_system.ini"
-config = configparser.ConfigParser()
-config.read(config_file)
 
-sunrise = config["DayNight"]["SunriseTime"]
-sunset = config["DayNight"]["SunsetTime"]
-print(f"Sunrise time = {sunrise}")
-print(f"Sunset time = {sunset}")
+def update_config(config_filename, new_time):
 
-new_sunrise = "7:25"
-new_sunset = "17:29"
+    # read the config file
+    config = configparser.ConfigParser()
+    config.read(config_filename)
 
-config["DayNight"]["SunriseTime"] = new_sunrise
-config["DayNight"]["SunsetTime"] = new_sunset
+    # update the sunrise and sunset times
+    config["DayNight"]["SunriseTime"] = new_time['sunrise']
+    config["DayNight"]["SunsetTime"] = new_time['sunset']
 
-print(f"Sunrise time = {new_sunrise}")
-print(f"Sunset time = {new_sunset}")
+    # write the updated config file
+    with open(config_filename, 'w') as ini_file:
+        config.write(ini_file)
 
-with open(config_file, 'w') as ini_file:
-    config.write(ini_file)
+
+if __name__ == '__main__':
+    # create some dummy test data
+    results = {'status_code': 200, 'sunrise': '07:12', 'sunset': '17:34'}
+    config_file = "openauto_system.ini"
+
+    update_config(config_file, results)
+
+    # sunrise = config["DayNight"]["SunriseTime"]
+    # sunset = config["DayNight"]["SunsetTime"]
+    # print(f"Sunrise time = {sunrise}")
+    # print(f"Sunset time = {sunset}")

@@ -37,7 +37,7 @@ def initLogger():
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
     if platform.system() == 'Linux':
-        logger.addHandler(SysLogHandler(address=('localhost', 541)))
+        logger.addHandler(SysLogHandler())
 
     if platform.system() == 'Windows':
         sh = logging.StreamHandler(sys.stderr)

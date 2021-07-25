@@ -1,4 +1,8 @@
 import argparse
+import logging
+import platform
+import sys
+from logging.handlers import SysLogHandler
 from pathlib import Path
 
 import get_sunrise_set
@@ -24,12 +28,32 @@ def parse_args():
 
     return args
 
+def initLogger():
+# copied from Example 5 at https://www.programcreek.com/python/example/3488/logging.handlers.SysLogHandler
+
+    logger = logging.getLogger('UpdateSunTimes')
+    logger.level = logging.INFO
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+    if platform.system() == 'Linux':
+        logger.addHandler(SysLogHandler())
+
+    if platform.system() == 'Windows':
+        sh = logging.StreamHandler(sys.stderr)
+        sh.setFormatter(formatter)
+        logger.addHandler(sh)
+
 
 if __name__ == '__main__':
+
+    initLogger()
+    logger = logging.getLogger('UpdateSunTimes')
     args = parse_args()
 
     results = get_sunrise_set.get_sunrise_sunset()
     if results['status_code'] == 200:
         update_config.update_config(args.configfile, results)
+        logger.info(f"Sunrise={results['sunrise']}, Sunset={results['sunset']}")
     else:
-        SystemExit(f"Couldn't get times from web page.  Status code = {results['status_code']:d}")
+        logger.error(f"Couldn't update sun times.  Status code = {results['status_code']:d}")
+        SystemExit()

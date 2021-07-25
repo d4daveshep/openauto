@@ -1,32 +1,41 @@
+import logging
+
 import requests
 from bs4 import BeautifulSoup
 
+
 def get_sunrise_sunset():
     web_url = "https://www.sunrise-and-sunset.com/en/sun/new-zealand/auckland"
+    results = {'url': web_url}
+    try:
+        page = requests.get(web_url)
+        results['status_code']=page.status_code
 
-    page = requests.get(web_url)
+        if page.status_code == 200:
+            soup = BeautifulSoup(page.content, 'html.parser')
 
-    results = {'status_code':page.status_code}
-    if page.status_code == 200:
+            table = soup.find('table', class_="table table-borderless")
+            # print(table.prettify())
 
-        soup = BeautifulSoup(page.content, 'html.parser')
+            tds = table.find_all('td')
+            sunrise_td = list(tds)[2]
+            sunset_td = list(tds)[3]
 
-        table = soup.find('table', class_="table table-borderless")
-        # print(table.prettify())
+            sunrise = (sunrise_td.contents[0]).strip()
+            sunset = (sunset_td.contents[0]).strip()
 
-        tds = table.find_all('td')
-        sunrise_td = list(tds)[2]
-        sunset_td = list(tds)[3]
+            # print(f"Sunrise is at: {sunrise}")
+            # print(f"Sunset is at: {sunset}")
+            results['sunrise'] = sunrise
+            results['sunset'] = sunset
 
-        sunrise = (sunrise_td.contents[0]).strip()
-        sunset = (sunset_td.contents[0]).strip()
-
-        # print(f"Sunrise is at: {sunrise}")
-        # print(f"Sunset is at: {sunset}")
-        results['sunrise'] = sunrise
-        results['sunset'] = sunset
+    except BaseException as e:
+        results['status_code']=-1
+        logger = logging.getLogger('UpdateSunTimes')
+        logger.error(e)
 
     return results
+
 
 if __name__ == '__main__':
     results = get_sunrise_sunset()
@@ -34,4 +43,3 @@ if __name__ == '__main__':
     print(f"Status code = {results['status_code']:d}")
     print(f"Sunrise is at: {results['sunrise']}")
     print(f"Sunset is at: {results['sunset']}")
-

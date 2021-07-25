@@ -54,7 +54,7 @@ if __name__ == '__main__':
     results = get_sunrise_set.get_sunrise_sunset()
     if results['status_code'] == 200:
         update_config.update_config(args.configfile, results)
-        logger.info(f"Sunrise={results['sunrise']}, Sunset={results['sunset']}")
+        logger.info(f"OAP UpdateSunTimes: Sunrise={results['sunrise']}, Sunset={results['sunset']}")
     else:
         logger.error(f"Couldn't update sun times.  Status code = {results['status_code']:d}")
         SystemExit()

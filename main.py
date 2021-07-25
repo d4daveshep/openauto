@@ -28,15 +28,16 @@ def parse_args():
 
     return args
 
+
 def initLogger():
-# copied from Example 5 at https://www.programcreek.com/python/example/3488/logging.handlers.SysLogHandler
+    # copied from Example 5 at https://www.programcreek.com/python/example/3488/logging.handlers.SysLogHandler
 
     logger = logging.getLogger('UpdateSunTimes')
     logger.level = logging.INFO
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
     if platform.system() == 'Linux':
-        logger.addHandler(SysLogHandler())
+        logger.addHandler(SysLogHandler(address=('raspberrypi', 541)))
 
     if platform.system() == 'Windows':
         sh = logging.StreamHandler(sys.stderr)

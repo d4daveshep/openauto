@@ -21,9 +21,3 @@ print(f"Sunset time = {new_sunset}")
 
 with open(config_file, 'w') as ini_file:
     config.write(ini_file)
-
-
-
-
-
-

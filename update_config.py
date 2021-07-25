@@ -14,7 +14,7 @@ def update_config(config_filename, new_time):
 
     # write the updated config file
     with open(config_filename, 'w') as ini_file:
-        config.write(ini_file)
+        config.write(ini_file,space_around_delimiters=False)
 
 
 if __name__ == '__main__':

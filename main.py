@@ -11,8 +11,7 @@ def parse_args():
         description='Update the OpenAutoPro config file sunrise and senset times')
 
     # define the argument to set the config file
-    parser.add_argument("-f", "--configfile", default="/home/pi/.openauto/config/openauto_system.ini",
-                        help="specify the full location of the config file")
+    parser.add_argument("configfile", help="specify the full location of the config file")
 
     # parse the arguments and check the file exists
     args = parser.parse_args()

@@ -3,3 +3,5 @@ bs4~=0.0.1
 beautifulsoup4~=4.9.3
 skyfield~=1.42
 
+
+pytz~=2022.1

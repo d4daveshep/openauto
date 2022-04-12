@@ -14,7 +14,12 @@ def test_calc_sunrise_set():
     results = calc_sunrise_sunset(test_date)
     assert results['sunrise'] == '06:43'
     assert results['sunset'] == '17:59'
+    assert results['status_code'] == 200
 
+
+def calc_todays_sunrise_sunset():
+    results = calc_sunrise_sunset(datetime.now())
+    return results
 
 def calc_sunrise_sunset(my_date):
     zone = timezone('Pacific/Auckland')
@@ -36,6 +41,7 @@ def calc_sunrise_sunset(my_date):
     results = {}
     results['sunrise'] = sunrise
     results['sunset'] = sunset
+    results['status_code'] = 200
     return results
 
 

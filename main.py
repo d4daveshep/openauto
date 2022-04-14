@@ -5,7 +5,8 @@ import sys
 from logging.handlers import SysLogHandler
 from pathlib import Path
 
-import get_sunrise_set
+import calc_sunrise_sunset
+# import get_sunrise_set
 import update_config
 
 
@@ -51,7 +52,8 @@ if __name__ == '__main__':
     logger = logging.getLogger('UpdateSunTimes')
     args = parse_args()
 
-    results = get_sunrise_set.get_sunrise_sunset()
+    # results = get_sunrise_set.get_sunrise_sunset()
+    results = calc_sunrise_sunset.calc_todays_sunrise_sunset()
     if results['status_code'] == 200:
         update_config.update_config(args.configfile, results)
         logger.info(f"OAP UpdateSunTimes: Sunrise={results['sunrise']}, Sunset={results['sunset']}")

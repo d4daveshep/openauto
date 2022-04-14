@@ -13,8 +13,8 @@ So `anacron` will run the `main.py` script once a day (trying every hour)
 `main.py` needs the location of the config file which is at
 `/home/pi/.openauto/config/openauto_system.ini`
 
-`main.py` first calls `get_sunrise_sunset.py` to scrape sunset and sunrise times
-Auckland from https://www.sunrise-and-sunset.com/en/sun/new-zealand/auckland
+`main.py` first calls `calc_sunrise_sunset.py` to calculate sunset and sunrise times
+Auckland (using skyfield Python library)
 
 Then `main.py` calls `update_config_file.py` to load the config file,
 update the sunset and sunrise times in the `[DayNight]` section and 

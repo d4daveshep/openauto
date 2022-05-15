@@ -34,7 +34,7 @@ def initLogger():
     # copied from Example 5 at https://www.programcreek.com/python/example/3488/logging.handlers.SysLogHandler
 
     logger = logging.getLogger('UpdateSunTimes')
-    logger.level = logging.INFO
+    logger.level = logging.DEBUG
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
     if platform.system() == 'Linux':

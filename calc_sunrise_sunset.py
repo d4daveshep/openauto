@@ -31,7 +31,7 @@ def calc_sunrise_sunset(my_date):
     ts = load.timescale()
     t0 = ts.from_datetime(midnight)
     t1 = ts.from_datetime(next_midnight)
-    eph = load('de421.bsp')
+    eph = load('/home/pi/python/update_sunrise_sunset/de421.bsp')
     bluffton = wgs84.latlon(36.8509 * S, 174.7645 * E)
 
     t, y = almanac.find_discrete(t0, t1, almanac.sunrise_sunset(eph, bluffton))
